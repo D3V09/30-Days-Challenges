@@ -1,0 +1,38 @@
+1) Merge Sorted Array :
+class Solution:
+    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+        for i in range(len(nums2)):
+            nums1[m+i] = nums2[i]
+        return nums1.sort()
+
+2) Remove Element : 
+class Solution(object):
+    def removeElement(self, nums, val):
+        i = 0
+        for x in nums:
+            if x != val:
+                nums[i] = x
+                i += 1
+        return i
+3) Remove Duplicates from Sorted Array II : 
+class Solution(object):
+    def removeDuplicates(self, nums):
+        unique = set(nums)
+        for i in unique:
+            if nums.count(i) > 2:
+                for j in range(len(nums)-1 , -1 , -1):
+                    if nums.count(i) > 2 and i == nums[j]:
+                        nums.remove(i)
+        return len(nums)
+4) Rotate Array :
+class Solution(object):
+    def rotate(self, nums, k):
+        if k > len(nums):
+            k = k % len(nums)
+        poping = nums[-k:]
+        del(nums[-k:])
+
+        nums.reverse()
+        poping.reverse()
+        nums.extend(poping)
+        nums.reverse()
