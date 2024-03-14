@@ -1,0 +1,31 @@
+1) Majority Element
+class Solution(object):
+    def majorityElement(self, nums):
+        maxi = 0
+        for i in set(nums):
+            if nums.count(i) > nums.count(maxi):
+                maxi = i
+        return maxi
+
+2) Remove Duplicates from Sorted Array :
+class Solution(object):
+    def removeDuplicates(self, nums):
+        nums[:] = sorted(set(nums))
+        return len(nums)
+
+3) Best Time to Buy and Sell Stock II
+class Solution(object):
+    def maxProfit(self, prices):
+        profit=0
+        for i in range(len(prices) -2, -1, -1):
+            profit+=max(0,prices[i+1]-prices[i])
+        return profit
+
+4) Jump Game 
+class Solution(object):
+    def canJump(self, nums):
+        last_position = len(nums)-1 
+        for i in range(len(nums)-2,-1,-1):
+            if (i + nums[i]) >= last_position: 
+                last_position = i 
+        return last_position == 0	
