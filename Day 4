@@ -1,0 +1,62 @@
+1) Trapping Rain Water
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        n = len(height)
+        left = [0]*n
+        right = [0]*n
+        left[0] = height[0]
+        right[n-1] = height[n-1]
+        for i in range(n):
+            left[i] = max(left[i-1] , height[i])        
+        for i in range(n-2 , -1,-1):
+            right[i] = max(right[i+1] , height[i])
+        total = 0
+        for i in range(n):
+            total += min(left[i] , right[i])-height[i]
+        return total
+
+2) Roman to Integer
+class Solution:
+    def romanToInt(self, s: str) -> int:
+        m = {
+            'I': 1,
+            'V': 5,
+            'X': 10,
+            'L': 50,
+            'C': 100,
+            'D': 500,
+            'M': 1000
+        }
+        ans = 0
+        for i in range(len(s)):
+            if i < len(s) - 1 and m[s[i]] < m[s[i+1]]:
+                ans -= m[s[i]]
+            else:
+                ans += m[s[i]]
+        return ans
+   
+3) Integer to Roman
+class Solution:
+    def intToRoman(self, num: int) -> str:
+        # Creating Dictionary for Lookup
+        num_map = {
+            1: "I",
+            5: "V",    4: "IV",
+            10: "X",   9: "IX",
+            50: "L",   40: "XL",
+            100: "C",  90: "XC",
+            500: "D",  400: "CD",
+            1000: "M", 900: "CM",
+        }
+        r = ''
+        for n in [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1]:
+            while n <= num:
+                r += num_map[n]
+                num-=n
+        return r
+
+4) Length of Last Word
+class Solution:
+    def lengthOfLastWord(self, s: str) -> int:
+        l = s.split()
+        return len(l[-1])
