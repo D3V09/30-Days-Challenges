@@ -1,0 +1,43 @@
+1) Longest Comman Prefix 
+class Solution:
+    def longestCommonPrefix(self, v: List[str]) -> str:
+        ans=""
+        v=sorted(v)
+        first=v[0]
+        last=v[-1]
+        for i in range(min(len(first),len(last))):
+            if(first[i]!=last[i]):
+                return ans
+            ans+=first[i]
+        return ans
+
+2) Reverse Words in String
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        l = s.split()
+        l.reverse()
+        return (" ".join(l))
+   
+3) Find the Index of the First Occurrence in a String
+class Solution(object):
+    def strStr(self, haystack, needle):
+        if needle in haystack:
+            return (haystack.index(needle))
+        return -1
+
+4) Valid Palindrome
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        l = 0
+        r = len(s)-1
+        while l < r:
+            if not s[l].isalnum():
+                l += 1
+            elif not s[r].isalnum():
+                r -= 1
+            elif s[l].lower() == s[r].lower():
+                l += 1
+                r -= 1
+            else:
+                return False
+        return True
