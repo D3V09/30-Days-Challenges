@@ -1,0 +1,66 @@
+1) Valid Sudoku
+class Solution(object):
+    def isValidSudoku(self, board):
+        res = []
+        for i in range(9):
+            for j in range(9):
+                element = board[i][j]
+                if element != '.':
+                    res += [(i, element), (element, j), (i // 3, j // 3, element)]
+        return len(res) == len(set(res))
+
+2) Spiral Matrix
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        result = []
+        if not matrix or not matrix[0]:
+            return result
+        row , col = len(matrix) , len(matrix[0])
+        top , right ,bottom , left = 0 , col-1 , row-1 , 0
+        while (len(result) < row*col ):
+            for i in range(left  , right+1):
+                result.append(matrix[top][i])
+            top += 1
+            for i in range(top  ,bottom+1):
+                result.append(matrix[i][right])
+            right -= 1
+            if top <= bottom :
+                for i in range(right  , left-1  ,-1):
+                    result.append(matrix[bottom][i])
+                bottom -= 1
+            if left <= right:
+                for i in range(bottom , top-1, -1):
+                    result.append(matrix[i][left])
+                left += 1
+        return result
+
+3) Rotate Image :
+class Solution:
+    def rotate(self, matrix: List[List[int]]) -> None:
+        def transpose(matrix):
+            for i in range(len(matrix)):
+                for j in range(i , len(matrix[0])):
+                    matrix[i][j] , matrix[j][i] = matrix[j][i] , matrix[i][j]
+        transpose(matrix)
+        for row in matrix:
+            row.reverse()
+
+4) Set Matrix Zeroes
+class Solution:
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        n, m = len(matrix), len(matrix[0])
+        row = [0] * n
+        col = [0] * m
+        for i in range(n):
+            for j in range(m):
+                if matrix[i][j] == 0:
+                    row[i] = 1
+                    col[j] = 1
+
+        for i in range(n):
+            for j in range(m):
+                if row[i] or col[j]:
+                    matrix[i][j] = 0
