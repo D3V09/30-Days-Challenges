@@ -1,0 +1,145 @@
+1) Merge Two Sorted Lists
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        cur = dummy = ListNode()
+        while list1 and list2:               
+            if list1.val < list2.val:
+                cur.next = list1
+                list1, cur = list1.next, list1
+            else:
+                cur.next = list2
+                list2, cur = list2.next, list2
+                
+        if list1 or list2:
+            cur.next = list1 if list1 else list2
+            
+        return dummy.next
+
+2) Copy List with Random Pointer
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+"""
+
+class Solution:
+    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        if not head:
+            return None
+        old_to_new = {}
+        
+        curr = head
+        while curr:
+            old_to_new[curr] = Node(curr.val)
+            curr = curr.next
+        
+        curr = head
+        while curr:
+            old_to_new[curr].next = old_to_new.get(curr.next)
+            old_to_new[curr].random = old_to_new.get(curr.random)
+            curr = curr.next
+            
+        return old_to_new[head]
+
+3) Reverse Linked List II
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
+        slow = head
+        new_head = ListNode(None, None)
+        new_head.next = head
+        left_edge = ListNode(None, None)
+        left_head = ListNode(None, None)
+        prev = ListNode(None, None)
+        trans = ListNode(None, None)
+        
+        if head.next is None or left == right:
+            return head
+
+        if left == 1:
+            slow = new_head
+            left_edge = slow
+            for i in range(left-1):
+                left_edge = slow
+                slow=slow.next
+            slow=slow.next
+            left_head = slow
+            
+            trans=slow.next
+            while (right-left):
+                prev = slow
+                slow = trans
+                trans = slow.next
+                slow.next = prev
+                right-=1
+            
+            left_edge.next=slow
+            left_head.next=trans
+
+            return new_head.next
+
+        left_edge = slow
+        for i in range(left-2):
+            slow=slow.next
+            left_edge = slow
+        slow=slow.next
+        left_head = slow
+        
+        trans=slow.next
+        while (right-left):
+            prev = slow
+            slow = trans
+            trans = slow.next
+            slow.next = prev
+            right-=1
+        
+        left_edge.next=slow
+        left_head.next=trans
+
+        return head
+
+4) Reverse Nodes in k-Group
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def getLength(self,head):
+        length = 0
+        while head:
+            length+=1
+            head = head.next
+        return length
+    def reverseGroup(self,head,k,length):
+        if length<k:
+            return head
+        curr = head
+        prev = None
+        next = None
+        count = 0
+        while curr and count<k:
+            next = curr.next
+            curr.next = prev
+            prev = curr
+            curr = next
+            count+=1
+        if next:
+            head.next = self.reverseGroup(next,k,length-k)
+        return prev
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        length = self.getLength(head)
+        return self.reverseGroup(head,k,length)
