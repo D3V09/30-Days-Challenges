@@ -1,0 +1,105 @@
+1) Remove Nth Node From End of List
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        dume = ListNode(0,head)
+        left = dume
+        right = head
+
+        while right and n > 0:
+            right = right.next
+            n -= 1
+        
+        while right:
+            left = left.next
+            right = right.next
+
+        left.next = left.next.next
+        return dume.next
+
+2)Remove Duplicates from Sorted List II
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution(object):
+    def deleteDuplicates(self, head):
+        fake = ListNode(-1)
+        fake.next = head
+        curr, prev = head, fake
+        while curr:
+            while curr.next and curr.val == curr.next.val:
+                curr = curr.next
+            if prev.next == curr:
+                prev = prev.next
+                curr = curr.next
+            else:
+                prev.next = curr.next
+                curr = prev.next
+        return fake.next
+
+3) Rotate list 
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        if not head:
+            return head
+
+        length , tail = 1, head
+        while tail.next:
+            tail = tail.next
+            length += 1
+
+        k = k%length
+        if k==0:
+            return head
+        cur = head
+        for i in range(length-k-1):
+            cur = cur.next
+
+        newHead = cur.next
+        cur.next = None
+
+        tail.next = head
+        return newHead
+
+4)Partition List
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:
+    
+        before_x = ListNode(0)
+        after_x = ListNode(0)
+        
+        before = before_x
+        after = after_x
+        
+        current = head
+        while current:
+            if current.val < x:
+                before.next = current
+                before = before.next
+            else:
+                after.next = current
+                after = after.next
+            current = current.next
+        
+        
+        before.next = after_x.next
+        after.next = None
+        
+        return before_x.next
